@@ -11,7 +11,7 @@ const NavSelectOrigin = (props) => (
             <option value={"northeastern"}>Northeastern</option>
             <option value={"harvard"}>Harvard</option>
             <option value={"cityhall"}>City Hall</option>
-            <option value={"logan"}>Logan</option>
+            <option value={"airport"}>Logan</option>
         </select>
     </div>
 );
