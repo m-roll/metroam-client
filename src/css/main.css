@@ -1,0 +1,37 @@
+body, html, #root {
+    height:100%;
+}
+
+.header-overlay {
+    z-index:100;
+    padding:2rem;
+    position:absolute;
+}
+
+.header-overlay .nav li a {
+    color:white;
+}
+
+.header-overlay .nav li a.active {
+    background-color:white;
+    color:#007bff;
+}
+
+#deckgl-wrapper div div {
+    z-index:-1;
+}
+
+#deckgl-wrapper, #deckgl-wrapper div, #deckgl-wrapper div div {
+    overflow:hidden !important;
+}
+
+.time-selector {
+    position:absolute;
+    bottom:0px;
+    padding:1.5rem;
+    border-width:.2rem;
+    border-color:#f8f9fa;
+    background-color:white;
+    z-index:100;
+    width:50rem;
+}
