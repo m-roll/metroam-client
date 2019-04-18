@@ -5,6 +5,12 @@ import NavMapType from './component/NavMapType';
 import NavSelectOrigin from './component/NavSelectOrigin';
 import TimeSelector from './component/TimeSelector';
 import {Visualization} from "./component/Visualization/Visualization";
+
+import airportTiming from "./timing/json/airport";
+import cityhallTiming from "./timing/json/cityhall";
+import harvardTiming from "./timing/json/harvard";
+import northeasternTiming from "./timing/json/northeastern";
+
 import d3 from "d3";
 import {render} from "react-dom";
 import './css/main.css';
@@ -12,10 +18,25 @@ import './css/main.css';
 const vizWrapperStyle = {
     height: "100%",
 };
+
+const sortTimingArray = (array) => {
+    array.sort((entry1, entry2) => {
+        if (entry1.time < entry2.time) return -1;
+        if (entry1.time > entry2.time) return 1;
+        return 0;
+    });
+};
+
+const getArrayElementFromRatio = (array, ratio) => {
+  const index = Math.round(ratio * (array.length - 1));
+  return array[index];
+};
+
 let dataSourceURL = "data/sample.csv";
 
 const constructDataUrl = (graphType, graphOrigin, graphTime) => {
-    const timePrepend = "2019-04-09_17_43_01.941751-04_00";
+    let timePrepend = graphTime.split(" ").join("_"); //replace spaces with underscores (filename)
+    timePrepend = timePrepend.split(":").join("_"); //replace colons with underscores (filename)
     const typeAppend = ((gt) => {
     switch(gt) {
         case "lyft-dur":
@@ -40,7 +61,13 @@ class App extends Component {
         };
         this.graphType = "lyft-dur";
         this.graphOrigin = "northeastern";
-        this.graphTime = "";
+        this.graphTime = 0.0;
+        this.timingString = "";
+
+        sortTimingArray(harvardTiming);
+        sortTimingArray(northeasternTiming);
+        sortTimingArray(cityhallTiming);
+        sortTimingArray(airportTiming);
     }
 
     componentDidMount() {
@@ -63,7 +90,21 @@ class App extends Component {
     }
 
     constructUrl() {
-        return constructDataUrl(this.graphType, this.graphOrigin, this.graphTime);
+        let timingArray = ((o) => {switch(o) {
+            case "airport":
+                return airportTiming;
+            case "northeastern":
+                return northeasternTiming;
+            case "harvard":
+                return harvardTiming;
+            case "cityhall":
+                return cityhallTiming;
+            default:
+                return [];
+        }}) (this.graphOrigin);
+        const timingString = getArrayElementFromRatio(timingArray, this.graphTime).time;
+        this.timingString = timingString;
+        return constructDataUrl(this.graphType, this.graphOrigin, timingString);
     }
 
     processCategoryClick = result => {
@@ -73,9 +114,17 @@ class App extends Component {
 
     processOriginChange = originName => {
         this.graphOrigin = originName;
+        this.loadDataFromSource(this.constructUrl());
+    };
+
+    processTimingChange = sliderVal => {
+        this.graphTime = sliderVal;
+        this.loadDataFromSource(this.constructUrl());
     };
 
     render() {
+        let date = new Date(this.timingString);
+        let dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour12: true, timeZone: "America/New_York", hour: "numeric", minute: "numeric"};
             if (this.state.dataSet) {
                 return (
                     <>
@@ -85,7 +134,10 @@ class App extends Component {
                                         currentType={this.graphType}/>
                             <NavSelectOrigin onOriginChange={this.processOriginChange.bind(this)}/>
                         </header>
-                        <TimeSelector />
+                        <TimeSelector
+                            onSliderChange={this.processTimingChange.bind(this)}
+                            currentTime={date.toLocaleDateString('en-US', dateOptions)}
+                        />
                     </div>
                     <div style={vizWrapperStyle}>
                          <Visualization data={this.state.dataSet} />
