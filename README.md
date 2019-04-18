@@ -1,5 +1,10 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Metroam specific information
+
+You must set your `REACT_APP_MAPBOX_TOKEN` environment variable to a valid mapbox token to run this application. I reccomend you do so by installing [dotenv](https://github.com/motdotla/dotenv) as a dev dependency and configuring it this way.
+
+
 ## Available Scripts
 
 In the project directory, you can run:
