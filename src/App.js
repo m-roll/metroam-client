@@ -77,10 +77,13 @@ class App extends Component {
     loadDataFromSource(url) {
         require('d3-request').csv(url, (error, response) => {
             if (!error) {
-                const data = response.map(d => [Number(d.lng), Number(d.lat)]);
-                this.setState({
-                                  dataSet: data
-                              });
+                let data = response.map(d => [Number(d.lng), Number(d.lat)]);
+                console.log(data[0][0]);
+                if (!isNaN(data[0][0])) {
+                    this.setState({
+                                      dataSet: data
+                                  });
+                }
             } else {
                 this.setState({
                                     dataSet: null
