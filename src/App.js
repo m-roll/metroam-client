@@ -10,10 +10,11 @@ import airportTiming from "./timing/json/airport";
 import cityhallTiming from "./timing/json/cityhall";
 import harvardTiming from "./timing/json/harvard";
 import northeasternTiming from "./timing/json/northeastern";
-
+import './css/main.css';
 import d3 from "d3";
 import {render} from "react-dom";
-import './css/main.css';
+
+import Writeup from "./component/writeup";
 
 const vizWrapperStyle = {
     height: "100%",
@@ -145,6 +146,9 @@ class App extends Component {
                     <div style={vizWrapperStyle}>
                          <Visualization data={this.state.dataSet} />
                     </div>
+                        <div className={"writeup container mt-4 pt-5"}>
+                            <Writeup />
+                        </div>
                     </>
                 );
             } else {
