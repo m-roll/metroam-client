@@ -56,7 +56,17 @@ const Writeup = (props) => (
     <h2>Conclusion</h2>
 
 <p>During this project, we hit some major challenges. However, we worked through them to make useful software that visualizes the relations and differentials between public transit and ride sharing. We see all sorts of patterns popping up that can be used to influence change in the Boston transportation infrastructure. What we have developed is a model for transportation-infrastructure analysis, but the blue sky approach would be far more useful in the real world.
-</p></>
-);
+</p>
+<h2>Group Roles</h2>
+        <h3>Joseph Kaming-Thanassi:</h3>
+<p>Worked primarily on the data sampling algorithm and the data processing algorithms. Since the data we were receiving was in JSON format and the data the front end was taking was lists of coordinates, the data was translated into lists of coordinates, with multiples of a single point relating to the weight it receives in the visualization. Additionally, some tricky math had to be done to get a radial point sampling in the lat/long coordinate space. Special formulae had to be used to correctly and uniformly shift distances.
+</p>
+        <h3>Khalil Haji:</h3>
+    <p>Worked primarily on the data collection from the API's. This involved writing a Lyft API handler for python--this did not exist prior--using the Google Maps python package, and writing a scheduler to gather data from these API's at hourly intervals. Coordinated the git repository for the data collection. Set up a cloud server to use for data collection. Maintained the collection service for one week which involved ensuring that the data being collected was being saved correctly periodically throughout the day.
+    </p>
+        <h3>Matthew Rollender:</h3>
+    <p>Worked primarily on the front-end visualization. Since Matt had the most experience with web frameworks and technologies, he did the bulk of the work making the website and getting the visualization working. Used Deck.gl, React, Bootstrap, and Github Pages to get the site up and running. Investigated different approaches for preparing data for Deck.gl; developed a React module to quickly load collected data and update the visualization on the fly. Loading our results in a performant manner was important for us to compare our data at different points of time. The time scrubber on the visualization had to quickly and efficiently pull data from our data store to allow us to draw conclusions about our data set.
+    </p>
+    </>);
 
 export default Writeup;
